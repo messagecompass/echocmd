@@ -41,7 +41,7 @@ fi
 TEXT=$(escape_json "$TEXT")
 
 # Call the curl function with the combined and escaped text
-RESPONSE=$(curl 'https://192.168.2.16:5001/ask' \
+RESPONSE=$(curl -s 'https://192.168.2.16:5001/ask' \
   -H 'accept: */*' \
   -H 'accept-language: en-US,en;q=0.9' \
   -H 'content-type: application/json' \

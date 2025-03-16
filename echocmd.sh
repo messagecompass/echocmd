@@ -67,7 +67,7 @@ done
 
 # If -ask is provided, call chat.sh with the modified text
 if [[ -n "$ask_text" ]]; then
-  ./chat.sh "be concise and search linux command: $ask_text"
+  chat.sh "be concise and search linux command: $ask_text"
   exit 0
 fi
 
