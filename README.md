@@ -1,11 +1,11 @@
-# echocmd.sh
+# echocmd.sh, a linux command helper
 
 This script retrieves and displays recent bash history, optionally filtered by a keyword. It allows you to select and copy a command to the clipboard.
 
 ## Usage
 
 ```bash
-./echocmd.sh [-n number] [-s search_term] [-a ask_text]
+./echocmd.sh [-n history number] [-s command key word] [-a what command look for]
 
 ./chat.sh "prompt"
 config LLM in
