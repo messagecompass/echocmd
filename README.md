@@ -3,6 +3,7 @@
 This script retrieves and displays recent bash history, optionally filtered by a keyword. It allows you to select and copy a command to the clipboard.
 
 ## Usage
+sudo apt-get install xclip
 
 ```bash
 ./echocmd.sh [-n history number] [-s command key word] [-a what command look for]
