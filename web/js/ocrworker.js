@@ -3,7 +3,9 @@ import * as repos from './repo.js';
 import { DataUrl } from './repo.dataurl.js';
 
 export class OcrWorker {
-    constructor(workId, interval = 20, errorInterval = 200) {
+    constructor(workId, url, interval = 20, errorInterval = 200) {
+        this.url ="/";
+        if (url) this.url = url;
         this.interval = interval;
         this.workId = workId;
         this.errorInterval = errorInterval;
@@ -13,7 +15,8 @@ export class OcrWorker {
     async getOcrItemId(sourceReferenceId, ocrText, errorMessage = '') {
         try {
             console.log(`getOcrItemId wid: ${this.workId} sid: ${sourceReferenceId}`);
-            const response = await fetch('/ocrworker', {
+            const url = `${this.url}ocrworker`;
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -40,7 +43,7 @@ export class OcrWorker {
         var cachedText = await repos.storageIndexedDB.getItem(cachedId);
         if (cachedText) return cachedText;
 
-        var imageUrl = `/cache/${sourceReferenceId}`;
+        var imageUrl = `${this.url}cache/${sourceReferenceId}`;
         var dataUrl = DataUrl.toObject(await urlToDataURL(imageUrl));
         if (dataUrl.mediaSubtype === 'x-zip-compressed') {
             //id: 692_1 application/x-zip-compressed

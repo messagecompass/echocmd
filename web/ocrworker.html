@@ -9,11 +9,12 @@
     <h1>OCR Worker, chrome driver diy version</h1>
     <script type="module">
         var urlParams = new URLSearchParams(window.location.search);
+        var server = urlParams.get('server');
         var imageURL = urlParams.get('url');
         var workId = urlParams.get('wid');
         if (!workId) workId = 'id_' + Date.now();
         import { OcrWorker } from './js/ocrworker.js';
-        const worker = new OcrWorker(workId);
+        const worker = new OcrWorker(workId, server);
         worker.longPoll(imageURL);
     </script>
     <div id="messageBox" class="messageBox"></div>
