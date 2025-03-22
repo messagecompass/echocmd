@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR Worker Example</title>
+</head>
+<body>
+    <h1>OCR Worker, chrome driver diy version</h1>
+    <script type="module">
+        var urlParams = new URLSearchParams(window.location.search);
+        var imageURL = urlParams.get('url');
+        var workId = urlParams.get('wid');
+        if (!workId) workId = 'id_' + Date.now();
+        import { OcrWorker } from './js/ocrworker.js';
+        const worker = new OcrWorker(workId);
+        worker.longPoll(imageURL);
+    </script>
+    <div id="messageBox" class="messageBox"></div>
+    <div id="chatHistory" style="width: 65%; height: 40%; margin: auto; overflow: auto; overflow-x: hidden; "></div>
+    <textarea id="ocrText" cols="80" rows="60"></textarea>
+</body>
+</html>
