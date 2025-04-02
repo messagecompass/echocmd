@@ -8,7 +8,17 @@ escape_json() {
 
 filter_response() {
   local response="$1"
-  echo "$response" | sed 's/ls//g; s/csharp```//g; s/```csharp//g; s/```markdown//g; s/```//g'
+
+  # Remove unwanted strings using sed
+  echo "$response" | 
+    sed '
+      s/ls//g;
+      s/csharp```//g;
+      s/```csharp//g;
+      s/```markdown//g;
+      s/```//g;
+      s/rm \*\.json//g;
+    '
 }
 
 TEXT="$1"
