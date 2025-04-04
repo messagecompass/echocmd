@@ -1,5 +1,18 @@
 #!/bin/bash
 
+extract_and_sanitize_content() {
+  local RAW_JSON="$1"  # Input: Raw JSON data
+  # Step 1: Extract the "content" field
+  local CONTENT=$(echo "$RAW_JSON" | grep -o '"content":"[^"]*"' | awk -F':' '{print $2}' | sed 's/^"//;s/"$//')
+
+  # Step 2: Remove Markdown and newlines from the content
+  # Convert Markdown-like syntax into plain text, and replace newlines with spaces
+  CONTENT=$(echo "$CONTENT" | sed -e 's/```//g' -e 's/\\n/ /g' -e 's/\*//g' -e 's/_//g' -e 's/#//g')
+
+  # Return sanitized content
+  echo "$CONTENT"
+}
+
 # Define the API endpoint
 API_URL='http://192.168.2.16:8081/v1/chat/completions'
 
@@ -63,10 +76,10 @@ EOF
     "$API_URL"
   )
 
-CONTENT=$(echo "$RESPONSE" | grep -o '"content":"[^"]*"' | awk -F':' '{print $2}' | sed 's/^"//;s/"$//')
-
+CONTENT=$(extract_and_sanitize_content "$RESPONSE")
+printf "%s" "$CONTENT" | xclip -selection clipboard
 if [ -n "$CONTENT" ]; then
-  gnome-terminal -- bash -c "echo \"$CONTENT\"; read -p 'Press Enter to close...'; exit"
+  gnome-terminal -- bash -c "echo \"$CONTENT\"; read -p 'content copied to clipboard, press Enter to close...'; exit"
 else
   gnome-terminal -- bash -c 'echo "Could not extract content from the response."; read -p "Press Enter to close..."; exit'
 fi
